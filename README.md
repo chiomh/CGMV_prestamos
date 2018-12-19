@@ -1,5 +1,8 @@
+# Replication Package for:
 # Income Contingent University Loans: Policy Design and an Application to Spain 
-## with Antonio Cabrales, Maia Güell, Rocio Madera, and Analia Viola
+## by Antonio Cabrales, Maia Güell, Rocio Madera, and Analia Viola
+
+Go to the end for instructions on how to obtain the data.
 
 ### MCVL-Datos personales+afiliados+cotización+fiscales
 #### Prueba año 2012
@@ -28,9 +31,6 @@ Objetivo: Necesitamos las variables sociodemográficas de los individuos. Las va
 -	Fecha de fallecimiento (ffallec)
 -	Sexo de los convivientes (sexo1 para el primer conviviente y así sucesivamente hasta sexo10, décimo conviviente).
 -	Fecha de nacimiento de los convivientes (fnacim1 para el primer conviviente y así sucesivamente hasta fnacim10, décimo conviviente).
-
-
-
 
 Preparación fichero afiliados
 
