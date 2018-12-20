@@ -1,8 +1,34 @@
-### Replication Package for "Income Contingent University Loans: Policy Design and an Application to Spain"
-#### by Antonio Cabrales, Maia Güell, Rocio Madera, and Analia Viola
+** Replication files for "Income Contingent University Loans: Policy Design and an Application to Spain" **
+##### by Antonio Cabrales, Maia Güell, Rocio Madera, and Analia Viola
 
+This site documents computer programs to replicate the results in this paper.
 
-Go to the end for instructions on how to obtain the data.
+### 1. How to obtain the data
+
+There are two versions of the MCVL data: with and without income tax data. For the first one it is referred as the MCVL CDF and for the latter as the MCVL SDF. 
+
+Obtaining the MCVL data requires completing two separated forms, namely:
+
+1.	“Condiciones de utilización” which specify the terms and conditions of use for the MCVL CDF and the MCVL SDF.
+2.	“Ficha de usuario” which contains information of:
+a.	the user, who requests the information and is responsible for the compliance with the terms and conditions. It can be a physical person or an entity, such as a university department.
+b.	the technical project manager, the individual involved in processing the data; if it is the same as the user, it can be left blank.
+c.	description of the project.
+
+These forms can be downloaded in the following link:
+http://www.seg-social.es/wps/portal/wss/internet/EstadisticasPresupuestosEstudios/Estadisticas/EST211/1459, accessed December 18, 2018.
+
+Note that for each edition of the MCVL and for every version (CFD or SDF) is needed a different form. Hence, for this paper we had to submit 11 forms, one for each edition of the MCVL CDF (2004 to 2013) plus the “ficha de usuario” form.
+
+The forms properly completed and signed must be sent to:
+
+Dirección General de Ordenación de la Seguridad Social
+Subdirección General de Seguimiento Económico
+C/Jorge Juan 59
+28001 Madrid
+
+Once the application is approved, the user receives a DVD or CD with the MCVL data.
+
 
 ### MCVL-Datos personales+afiliados+cotización+fiscales
 **Prueba año 2012**
@@ -93,41 +119,3 @@ Preparación fichero final
 
 
 Nota: Al final también hemos eliminado los datos de convivientes (sexo y fecha de nacimiento).
-
-
-### How to obtain the MCVL data
-
-There are two versions of the MCVL data: with and without income tax data. For the first one it is referred as the MCVL CDF and for the latter as the MCVL SDF. 
-
-Obtaining the MCVL data requires completing two separated forms, namely:
-
-1.	“Condiciones de utilización” which specify the terms and conditions of use for the MCVL CDF and the MCVL SDF.
-2.	“Ficha de usuario” which contains information of:
-a.	the user, who requests the information and is responsible for the compliance with the terms and conditions. It can be a physical person or an entity, such as a university department.
-b.	the technical project manager, the individual involved in processing the data; if it is the same as the user, it can be left blank.
-c.	description of the project.
-
-These forms can be downloaded in the following link:
-http://www.seg-social.es/wps/portal/wss/internet/EstadisticasPresupuestosEstudios/Estadisticas/EST211/1459, accessed December 18, 2018.
-
-Note that for each edition of the MCVL and for every version (CFD or SDF) is needed a different form. Hence, for this paper we had to submit 11 forms, one for each edition of the MCVL CDF (2004 to 2013) plus the “ficha de usuario” form.
-
-The forms properly completed and signed must be sent to:
-
-Dirección General de Ordenación de la Seguridad Social
-Subdirección General de Seguimiento Económico
-C/Jorge Juan 59
-28001 Madrid
-
-Once the application is approved, the user receives a DVD or CD with the MCVL data.
-
-
-
-
-
-
-
-
-
-
-
