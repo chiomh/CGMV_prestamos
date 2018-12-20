@@ -1,4 +1,4 @@
-## Replication files for "Income Contingent University Loans: Policy Design and an Application to Spain", by Antonio Cabrales, Maia Güell, Rocio Madera, and Analia Viola
+## Replication files for "Income Contingent University Loans: Policy Design and an Application to Spain", by A. Cabrales, M. Güell, R. Madera, and A. Viola
 
 This site documents computer programs to replicate the results in this paper.
 
