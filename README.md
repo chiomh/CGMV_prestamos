@@ -3,11 +3,17 @@
 
 This site documents computer programs to replicate the results in this paper.
 
-### 1. How to obtain the data
+### The MCVL Data
 
-There are two versions of the MCVL data: with and without income tax data. For the first one it is referred as the MCVL CDF and for the latter as the MCVL SDF. 
+This paper uses anonymized administrative data from the Muestra Continua de Vidas Laborales (MCVL) with the permission of Spain's Dirección General de Ordenación de la Seguridad Social. These data are confidential. Therefore, we include and overview and instructions on how to request access to the MCVL.
 
-Obtaining the MCVL data requires completing two separated forms, namely:
+There are two versions of the MCVL data: with and without income tax data. For the first one it is referred as the MCVL CDF and for the latter as the MCVL SDF. We focus on the MCVL CDF here. The MCVL CDF data contains anonymized social security, income tax and census records for a 4% random sample of Spanish workers, as well as recipients of pensions and unemployment benefits. 
+
+For more details, plase see the main text.
+
+### Obtaining the data
+
+Obtaining the MCVL data is simple. It requires completing two separated forms, namely:
 
 1.	“Condiciones de utilización” which specify the terms and conditions of use for the MCVL CDF and the MCVL SDF.
 2.	“Ficha de usuario” which contains information of:
