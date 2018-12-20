@@ -42,7 +42,7 @@ Once the application is approved, the user receives a DVD or CD with the MCVL da
 Los ficheros de la MCVL
 
 Utilizamos 4 ficheros de la MCVL con la siguiente información:
-•	Fichero personal: información sociodemográfica de cada individuo (sexo, nacionalidad, provincia y país de nacimiento, nivel educativo, fecha de nacimiento y fallecimiento además del sexo y fecha de nacimiento de cada conviviente, etc.).
+- Fichero personal: información sociodemográfica de cada individuo (sexo, nacionalidad, provincia y país de nacimiento, nivel educativo, fecha de nacimiento y fallecimiento además del sexo y fecha de nacimiento de cada conviviente, etc.).
 •	Fichero afiliados:  altas y bajas de cada contrato y el coeficiente de parcialidad (como base para construir la variable horas trabajadas),  el régimen de cotización como base para generar la situación laboral de cada individuo (asalariado, autónomo, parado, etc.) y el tipo de contrato como base para construir el porcentaje de tiempo en contrato temporal o indefinido.
 •	Fichero cotización: bases de cotización total (anual) tanto para los asalariados como para los autónomos. Así tenemos todos los ingresos anuales para cada individuo, principalmente para poder distinguir a aquellos individuos que no declaran y no figuran en el fichero fiscal.
 •	Fichero fiscal: ingresos anuales por cada categoría (clave de percepción) y los ingresos totales (todas las claves de percepción) de cada individuo.
