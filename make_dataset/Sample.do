@@ -4,6 +4,9 @@
 *
 * Input: panel0513_clean
 * Output: 	panel0513_main
+*
+* R.Madera
+* Last revised: 1/21/2019
 * ------------------------------------------------------------------------------
 local InputFile "$DataDir/panel0514_clean.dta"
 local OutDir "$StataOut"

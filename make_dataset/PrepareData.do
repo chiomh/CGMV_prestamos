@@ -9,11 +9,11 @@
 * Output: panel0514_clean
 *
 * Most of these steps take very long and are common to all analyses. 
-* It is convenient to only run it once and use panel0513_cleanpre1stage.dta 
+* It is convenient to only run it once and use panel0513_clean.dta 
 * as main data input in the subsequent codes.
 *
 * R.Madera
-* Last revised: 10/29/2015
+* Last revised: 1/21/2019
 * ------------------------------------------------------------------------------
 
 set more off
@@ -129,7 +129,7 @@ replace mw=	17.1	if anomcvl==	2005
 * ---------------------------------------
 
 * Main earnings variable - choose or construct (see PDF for an explanation)
-g reyr = WS
+g reyr = WS // annual earnings
 
 * Define real earnings base 2011
 merge m:1 anomcvl using $DataDir/ipc11.dta, keepusing(anomcvl ipc11) nogen

@@ -28,11 +28,11 @@ pause off
 * Directories 
 *---------------------------------------------------------------------------
 
-global BaseDir 	 "~/Dropbox/research/cgm_education/Dual_Dynamics"	// My Mac
+global BaseDir 	 "~/Dropbox/research/cgm_education/prestamos"	
 
 global CodesDir   	"$BaseDir/stata/codes"
 global StataOut   	"$BaseDir/stata/output"
-global FortranOut   "$BaseDir/fortran/simulations"
+// global FortranOut   "$BaseDir/fortran/simulations"
 global DataDir   	"$BaseDir/stata/data"	
 *global DataFile   	"$DataDir/MCVLfinal2005-2013_ipc.dta"
 global DataFile   	"$DataDir/mcvl0514.dta"
@@ -41,14 +41,11 @@ cd $StataOut
 
 * create directories in output if first time running
 cap mkdir All
-cap mkdir Perm
-cap mkdir Tem
 
 *---------------------------------------------------------------------------
 * Running options 
 *---------------------------------------------------------------------------
 
-global SampleStable=0		// All (0),  Stable (1), Unstable (2)
 global ComputeSumStats "N" 	// Calculate summary statistics for main variables?
 global CountObs "N" 		// Keep count of the observations at each step
 
@@ -64,11 +61,6 @@ global minage=19		// Min age (non-college grads)
 global mingradage=22 	// Minimum age for graduates
 global maxage=60		// Max age
 
-*---------------------------------------------------------------------------
-* Estimation options
-*---------------------------------------------------------------------------
-global nlags=6 			// Number of lags for Autocovariances
-
 *******************************************************
 *1. Prepare the data
 *******************************************************
@@ -83,7 +75,6 @@ if "$CountObs"=="Y" {
 	putexcel A11=("Min age") B11=($minage) using $StataOut/countN, modify sheet("readme")
 	putexcel A12=("Max age") B12=($maxage) using $StataOut/countN, modify sheet("readme")
 	putexcel A13=("Min grad age") B13=($mingradage) using $StataOut/countN, modify sheet("readme")
-	putexcel A14=("Lags") B14=($nlags) using $StataOut/countN, modify sheet("readme")
 }
 
 * Make a clean panel
@@ -96,6 +87,7 @@ qui do $CodesDir/PrepareData.do
 *5. Calculate quantile statistics - for model fit purposes
 *6. Repeat steps 4 and 5 for lifetime-perm and lifetime-temp
 *************************************************************
+qui do $CodesDir/Sample.do
 
 global SampleStable=0
 qui do $CodesDir/2.FirstStage.do
