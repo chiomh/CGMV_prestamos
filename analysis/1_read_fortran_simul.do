@@ -16,16 +16,14 @@ cap log close
 set more off 
 pause off
 
-qui run setdirs_rocio
-
-
-global perc 100 // deciles (100 for percentiles)
+global perc 100 // quantiles (100 for percentiles)
+global qualityadj = 0
 
 cd "$StataOut"
 
 
-local e=4
-forvalues s = 1/2 {
+local e=4 // education, 4 is college grads
+forvalues s = 1/2 { //sex
 	global ModelDir = "${BaseDir}/fortran/simulations/All/sex_`s'/edgroup_`e'"
 	
 	************************
@@ -100,6 +98,11 @@ forvalues s = 1/2 {
 	}
 	clear		
 	svmat rearnsM
+	if $qualityadj== 1 {
+		foreach v of varlist rearnsM* {
+			replace `v'=1.1*`v'
+		}
+	}
 	mata : st_matrix("lifetimeY", rowsum(st_matrix("rearnsM")))
 	svmat lifetimeY
 

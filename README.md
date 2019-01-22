@@ -12,7 +12,6 @@ For the required steps to obtain the data and to build the raw panel data, we re
 ## Replicating the results in the paper
 
 ### Figure 2: Quantiles of Log Earnings Over Life-Cycle
-### Figure 3: Baseline
-### Figures 4-8: Alternative Scenarios 
-### Table 3: Quality
-### Table 4: Summary of Results 
+### Figures 3-8 and Table 4: analysis
+### Table 4: turn global parameter "qualityadj = 1" and rerun codes in analysis
+

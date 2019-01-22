@@ -38,7 +38,8 @@ global shareGE_G = 0.01		// share of public spending on higher ed over
 							// total public spending (G^E/\bar{G} in paper)
 global subsidyGTF = 0.8 	// share of total cost of higher ed that is
 							// financed with public funds (G^E/\bar{C} in paper)
-* thresholds income tax (irpf 2017)
+
+* Import actual Spanish income tax (irpf 2017)
 * --- if we want to make it as in Spain
 // global 	taxS1	=	0.19
 // global 	taxS2	=	0.24
@@ -60,7 +61,6 @@ global exempt_base=15000 // exemption income level
 global maxyears_base=25 // years after which the debt is "forgiven"
 global repaym_base=0.1   // repayment rate
 global disc_base=0.022   // repayment rate
-	
 	
 * ICL laboratory parameters -- robustness
 global debtlist $debt_base 5000 10000 30000 40000

@@ -6,26 +6,16 @@ pause off
 
 set matsize 11000, permanently
 
-/* MAIA
 * Root
+global BaseDir 	 	"~/Documents/GitHub/CGMV_prestamos"
+global CodesDir   	"$BaseDir/stata"
+global StataOut   	"$BaseDir/stata/output"		// Output from Stata 
+global GraphDir   	"$BaseDir/stata/graphs"	// graphs
 
-global PCmaiaoffice "C:/Users/mguell/Dropbox"
+* just in case it's first run
+cap mkdir $GraphDir
+cap mkdir $StataOut
 
-global BaseDir 	 	"$PCmaiaoffice/FEDEA/prestamos"
-global CodesDir   	"$BaseDir/stata/codes"
-* Output from Stata 
-global StataOut   	"$PCmaiaoffice/FEDEA/prestamos/stata/output"	
-* Graph Dir
-global GraphDir   	"$PCmaiaoffice/FEDEA/prestamos/stata/graficos"	
-*/
-
-
-* Root
-global BaseDir 	 	"~/Dropbox/research/cgm_education/prestamos"
-global CodesDir   	"$BaseDir/stata/codes"
-* Output from Stata 
-global StataOut   	"$BaseDir/stata/output"	
-* Graph Dir
-global GraphDir   	"$BaseDir/stata/graficos"	
-*global GraphDir   	"$BaseDir/paper/graphs/loans"	
 * -------------------------------------
+
+cd $BaseDir
