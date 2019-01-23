@@ -8,7 +8,7 @@ accommodate specificities of the Spanish labor market (as well as the data) that
 in the paper. We thank Jack Britton, Sarah Cattan, Lorraine Dearden, Emla Fitzsimons, Alissa Goodman, and Greg Kaplan for sharing them with us.
     
 
-MODULES - TO BE CALLED BY ALL SUBROUTINES:
+CODES DESCRIPTION:
 
     - Paramaters.f90 sets the value for paths, model of interest (e.g. males
       with higher education, females with higher education...), and parametric
@@ -16,9 +16,6 @@ MODULES - TO BE CALLED BY ALL SUBROUTINES:
 
     - Globals.f90 contains the declaration of global variables and vectors that
       will be used in a few subroutines. 
-
-
-ROUTINES - MAIN CODE:
 
     - Main.f90 is the master file. It calls the subroutines in the right order.
 
