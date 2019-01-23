@@ -6,6 +6,8 @@ non-fortran user. Details on the specific subroutines can be found inside the f9
 All these codes are adapted from Dearden et al. (2008)'s original codes to
 accommodate specificities of the Spanish labor market (as well as the data) that we discuss 
 in the paper. We thank Jack Britton, Sarah Cattan, Lorraine Dearden, Emla Fitzsimons, Alissa Goodman, and Greg Kaplan for sharing them with us.
+
+The resulting simulated data is in sex_1 for males and sex_2 for women, without the need to run the codes. Stata codes read both and merge them for the baseline results.
     
 
 CODES DESCRIPTION:
