@@ -4,8 +4,8 @@ information that is necessary to run the codes or that is not obvious to a
 non-fortran user. Details on the specific subroutines can be found inside the f90 files.
 
 All these codes are adapted from Dearden et al. (2008)'s original codes to
-accommodate specificities of the Spanish labor market. We thank them for sharing
-them with us.
+accommodate specificities of the Spanish labor market (as well as the data) that we discuss 
+in the paper. We thank them for sharing them with us.
     
 
 MODULES - TO BE CALLED BY ALL SUBROUTINES:
