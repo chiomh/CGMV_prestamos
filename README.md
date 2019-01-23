@@ -15,6 +15,11 @@ For the required steps to obtain the data and to build the raw panel data, we re
 ## Replicating the results in the paper
 
 ### Figure 2: Quantiles of Log Earnings Over Life-Cycle
-### Figures 3-8 and Table 4: stata/3_make_graphs
-### Table 4: turn global parameter "qualityadj = 1" and rerun codes in analysis
+To compare empirical and simulated earnings ditribution, run simulations/figure2.m with the appropriate paths.
+
+### Figures 3-8 and Table 4
+To replicate main results in the paper, run all codes in folder stata. In particular 3_make_graphs creates the graphs after the loan laboratory has been calculated in loan_lab. 2_loan_lab is pretty slow.
+
+### Table 4
+Turn global parameter "qualityadj = 1" and rerun codes in stata.
 
