@@ -24,13 +24,13 @@ cd "$StataOut"
 
 local e=4 // education, 4 is college grads
 forvalues s = 1/2 { //sex
-	global ModelDir = "${BaseDir}/fortran/simulations/All/sex_`s'/edgroup_`e'"
+	global ModelDir = "${BaseDir}/fortran/simulations/sex_`s'/edgroup_`e'"
 	
 	************************
 	di("import constant from first-stage income regression")
 	************************
 	preserve
-	import delimited "${StataOut}/All/constantdistn_s`s'_e`e'.txt", clear case(preserve)
+	import delimited "${StataOut}/constantdistn_s`s'_e`e'.txt", clear case(preserve)
 	qui des
 	scalar ngroup = r(k)
 	scalar constantdist_s`s'_e`e'1 = v1
