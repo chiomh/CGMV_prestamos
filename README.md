@@ -1,6 +1,6 @@
 ## Replication files for "Income Contingent University Loans: Policy Design and an Application to Spain", by A. Cabrales, M. Güell, R. Madera, and A. Viola
 
-This file documents computer programs to replicate the results in this paper. Don't hesitate to contact us for comments or questions at romadera@smu.edu.
+This file documents computer programs to replicate the results in this paper. The main results of the paper should be easily replicable using the simulated data in the simulations folder. Given social security data restrictions, availability of empirical results used to calculate the simulation is limitted. Don't hesitate to contact us for comments or questions at romadera@smu.edu.
 
 ## Obtaining the MCVL data 
 
