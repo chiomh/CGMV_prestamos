@@ -5,7 +5,7 @@ non-fortran user. Details on the specific subroutines can be found inside the f9
 
 All these codes are adapted from Dearden et al. (2008)'s original codes to
 accommodate specificities of the Spanish labor market (as well as the data) that we discuss 
-in the paper. We thank them for sharing them with us.
+in the paper. We thank Jack Britton, Sarah Cattan, Lorraine Dearden, Emla Fitzsimons, Alissa Goodman, and Greg Kaplan for sharing them with us.
     
 
 MODULES - TO BE CALLED BY ALL SUBROUTINES:
