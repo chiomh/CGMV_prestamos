@@ -15,11 +15,11 @@ For the required steps to obtain the data and to build the raw panel data, we re
 ## Replicating the results in the paper
 
 ### Figure 2: Quantiles of Log Earnings Over Life-Cycle
-To compare empirical and simulated earnings ditribution, run simulations/figure2.m with the appropriate paths.
+To compare empirical and simulated earnings ditribution, run simulations/figure2.m.
 
 ### Figures 3-8 and Table 4: Main Results
-To replicate main results in the paper, run all codes in folder stata. In particular 3_make_graphs creates the graphs after the loan laboratory has been calculated in loan_lab. 2_loan_lab is pretty slow.
+To replicate main results in the paper, run all codes in folder stata. In particular 3_output_results creates the graphs after the loan laboratory has been calculated in loan_lab. Case_s3_e4.dta is provided in stata/output and it is the output of 2_loan_lab. 2_loan_lab is pretty slow. 
 
 ### Table 3: Quality
-Turn global parameter "qualityadj = 1" and rerun codes in stata.
+Turn global parameter "qualityadj = 1" in 2_loan_lab to create Case_s3_e4_q.dta and rerun codes in stata. The output is Case_s3_e4_q.dta, which is also provided in stata/output. Then flagging makequality=1 in 3_output_results generates Table3.
 
