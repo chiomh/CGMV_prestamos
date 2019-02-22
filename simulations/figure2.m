@@ -10,7 +10,7 @@ ModelDir    = '~/Documents/GitHub/CGMV_prestamos/simulations';
 
 % Options for this run;
 
-Save = 0;% Save graphs;
+Save = 1;% Save graphs;
 
 mygray=[.7 .7 .7];
 myblue=[51/255 102/255 153/255];
@@ -87,7 +87,7 @@ for i_s=1:1,
     posgraphs = screens(end,: );
         PClrearnsM = prctile(lrearnsM,[5 10 25 50 75 90 95])';
         
-        figure('color','white','position',posgraphs); hold on;
+        figure('color','white','position',posgraphs/1.1); hold on;
         plot(age,PClrearns,'LineWidth',2.5);
         plot(age,PClrearnsM,'--','LineWidth',1.5);
         grid;
@@ -99,7 +99,7 @@ for i_s=1:1,
         ylabel('Log Earnings','interpreter','latex','Fontsize',20);
         xlabel('Age','interpreter','latex','Fontsize',20);
         if Save==1
-            export_fig([GraphDir '/lquantiles_s' int2str(sex) '_e' int2str(ed)],'-eps');
+            print('-depsc2',[OutputDir '/lquantiles_s' int2str(sex) '_e' int2str(ed) '.eps']);
         end
 
         
