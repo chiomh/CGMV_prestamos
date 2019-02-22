@@ -2,21 +2,25 @@
 * 1. Number of years to repay all debt
 * 2. Net present value of repayments
 * 3. Subsidy 
-* for each of the experiments calculated in rocio_dic17_2.do.
+* for each of the experiments calculated in 2_loan_lab.do. 
 *
 * Rocio Madera
-* Last: 5/16/2018
+* Last: 2/22/2019
 *---------------------------------------------------------------------------
 pause off
 cap set scheme plotplainblind, permanently
-// run 0_setdirs_rocio
-global maketable=1
-global makegraphs=1
+
+run 0_setdirs
+
+// choose which results to export
+global maketable=1 	
+global makegraphs=1 
 global makequality=1
+
 * Select education
 local e=4
 * choose sex
-local s=3 // all
+local s=3 
 
 * Setup file to export table
 if ${maketable}==1 putexcel set $GraphDir/Table3.xlsx, replace
