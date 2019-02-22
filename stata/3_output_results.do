@@ -11,7 +11,7 @@ pause off
 cap set scheme plotplainblind, permanently
 // run 0_setdirs_rocio
 global maketable=1
-global makegraphs=0
+global makegraphs=1
 global makequality=1
 * Select education
 local e=4
@@ -41,6 +41,7 @@ foreach i of local listcases {
 
 * GRAPHS
 use "$StataOut/Case_s`s'_e`e'.dta", clear
+g currentsub=.8
 keep if iRate_Discount==22
 g repaid = 1-subsidy
 drop subsidy
@@ -65,6 +66,26 @@ if `i'==0 {
 	graph export "${GraphDir}/`casename'_REPAY.pdf", replace
 	
 	
+	local color1="black"
+	local color2="plb1"
+	local color3="cranberry"
+	local color4="gs11"
+	local color5="gs13"
+	
+	
+	twoway 	(line NPV pcgroup, lcolor(`color1') lpattern(-) lwidth(.4)) ///
+			(line NPVICL pcgroup, lcolor(`color1') lpattern(solid) lwidth(.4)) ///
+			(line NPVGTF pcgroup, lcolor(`color4') lpattern(solid) lwidth(.4)) ///			
+			(line FGTF pcgroup, lcolor(`color4') lpattern(-) lwidth(.4)) ,  ///
+			legend(pos(11) ring(0) col(1) size(normal) ///
+			lab(1 "Repayments {&sum}{subscript:a}{&beta}{superscript:a}P{subscript:i,a} (ICL)") ///
+			lab(2 "ICL Total Repayments + Tax") ///
+			lab(3 "GTF Total Fees + Tax") ///
+			lab(4 "Fees F(GTF)") ///
+			order(2 1 3 4))  ytitle("Euros") xlabel(0 `" "0"  "poorest" "' 10(10)90 100 `" "100"  "richest" "') 
+	graph export  "${GraphDir}/`casename'_NPV_GTF.pdf", replace
+pause
+
 	twoway (line NPV pcgroup)
 	graph save  "${GraphDir}/`casename'_NPV.gph", replace
 	graph export  "${GraphDir}/`casename'_NPV.pdf", replace
@@ -72,7 +93,8 @@ if `i'==0 {
 	
 	sum subsidy 
 	global meansub=r(mean)
-
+	g meansub=$meansub
+	
 	sum repaid
 	global meanrep=r(mean)	
 	sum repaid if pcgroup<=10
@@ -96,13 +118,10 @@ if `i'==0 {
 		local ic=2
 		putexcel A`ic'="Baseline"
 		local ic=`ic'+1	
-// 		putexcel A`ic'=`i' D`ic'=100*$meansub E`ic'=100*$p10sub F`ic'=100*$p90sub
-// 		putexcel A`ic'=`i' D`ic'=100*$meansub E`ic'=100*$p10sub F`ic'=100*$p90sub G`ic'=${Gcost} H`ic'=$P10cost I`ic'=$P90cost 
 		putexcel A`ic'=`i' D`ic'=100*$meansub E`ic'=100*$meanrep F`ic'=100*$p90rep G`ic'=100*$p10rep H`ic'=$withinGTF I`ic'=$withinICL 
 	}
 	
 	if ${makegraphs}==1 {
-	g currentsub=.8
 	twoway (line subsidy pcgroup) (line meansub pcgroup) (line currentsub pcgroup), ///
 			legend(pos(7) ring(0) col(1) size(normal) ///
 			lab(1 "Subsidy by lifetime income") ///
@@ -133,10 +152,10 @@ pause
 	
 	local l1=0
 	local l2=5
-	local l4=22
-	local l3=8
-// 	local l5=15
-	pause
+	local l3=22
+	local l4=8
+	local l5=15
+	
 	if ${makegraphs}==1 {
 	local color1="black"
 	local color2="plb1"
@@ -147,7 +166,8 @@ pause
 // 	(line repaymyear pcgroup if `varname'==`l5', lcolor(`color5') lpattern(solid) ) ///
 	
 	twoway ///
-	(line repaymyear pcgroup if `varname'==`l4', lcolor(`color4') lpattern(solid) ) ///	
+	(line repaymyear pcgroup if `varname'==`l4', lcolor(`color4') lpattern(solid) ) ///
+	(line repaymyear pcgroup if `varname'==`l5', lcolor(`color5') lpattern(solid) ) ///
 	(line repaymyear pcgroup if `varname'==`l1', lcolor(`color1') lpattern(solid) lwidth(.5)) ///
 	(line repaymyear pcgroup if `varname'==`l2', lcolor(`color2') lpattern(solid) lwidth(.5)) ///
 	(line repaymyear pcgroup if `varname'==`l3', lcolor(`color3') lpattern(solid) lwidth(.5)), ///
@@ -160,9 +180,9 @@ pause
 	graph export "${GraphDir}/`casename'_REPAY.pdf", replace
 	pause
 	
-// 	(line NPV pcgroup if `varname'==`l5', lcolor(`color5') lpattern(solid) ) ///
 	twoway  ///
-	(line NPV pcgroup if `varname'==`l4', lcolor(`color4') lpattern(solid) ) ///	
+	(line NPV pcgroup if `varname'==`l4', lcolor(`color4') lpattern(solid) ) ///
+	(line NPV pcgroup if `varname'==`l5', lcolor(`color5') lpattern(solid) ) ///
 	(line NPV pcgroup if `varname'==`l1', lcolor(`color1') lpattern(solid) lwidth(.5)) ///
 	(line NPV pcgroup if `varname'==`l2', lcolor(`color2') lpattern(solid) lwidth(.5)) ///
 	(line NPV pcgroup if `varname'==`l3', lcolor(`color3') lpattern(solid) lwidth(.5)), ///
@@ -219,8 +239,20 @@ pause
 		}
 	}
 	
+	sum subsidy if `varname'==`l1'
+	global meansub1=r(mean)
+	g meansub1=$meansub1
+	sum subsidy if `varname'==`l2'
+	global meansub2=r(mean)
+	g meansub2=$meansub2
+	sum subsidy if `varname'==`l3'
+	global meansub3=r(mean)
+	g meansub3=$meansub3
+	sum subsidy if `varname'==`l4'
+	global meansub4=r(mean)
+	g meansub4=$meansub4
+	
 	if ${makegraphs}==1 {
-	g currentsub=.8
 	twoway (connected currentsub pcgroup, mcolor(gs10) msymbol(X) connect(none)) ///
 	(line subsidy pcgroup if `varname'==`l4', lcolor(`color4') lpattern(solid)) ///
 	(line subsidy pcgroup if `varname'==`l5', lcolor(`color5') lpattern(solid)) ///
@@ -234,7 +266,7 @@ pause
 			lab(4 "`varlabname'=`l1'`unit' (Base)") ///
 			lab(6 "`varlabname'=0.5`unit'") ///
 			lab(8 "`varlabname'=2.2`unit'") ///
-			lab(1 "Current Subsidy") ///
+			lab(1 "GTF Subsidy") ///
 			order(1 6 8 4)) ///
 			ytitle("Subsidy as a share of loan") ylabel(0 `" "0"  "full" "tuition" "' .2(.2).8 1 `" "1"  "free" "tuition" "') ///
 			xlabel(0 `" "0"  "poorest" "' 10(10)90 100 `" "100"  "richest" "') 
@@ -244,7 +276,6 @@ pause
 	restore
 }
 else {
-	
 	if `i'==1 {
 		global maxd=40000
 		*case1: different debt levels (PRINCIPAL);
@@ -260,8 +291,8 @@ else {
 		
 		local l1=21
 		local l2=5
-		local l4=40
-		local l3=10
+		local l3=40
+		local l4=10
 		local l5=30
 	}
 	else if `i'==3 {
@@ -279,8 +310,8 @@ else {
 		
 		local l1=15
 		local l2=10
-		local l4=25
-		local l3=20
+		local l3=25
+		local l4=20
 		local l5=20
 	}
 	else if `i'==4 {
@@ -299,8 +330,8 @@ else {
 		
 		local l1=25
 		local l2=15
-		local l4=30
-		local l3=20
+		local l3=30
+		local l4=20
 		local l5=20
 	}
 	else if `i'==5 {
@@ -319,19 +350,19 @@ else {
 		
 		local l1=10
 		local l2=5
-		local l4=15
-		local l3=8
+		local l3=15
+		local l4=8
 		local l5=8
 	}	
 		
-	
+	if ${makegraphs}==1 {
 	local color1="black"
 	local color2="plb1"
 	local color3="cranberry"
 	local color4="gs13"
 	local color5="gs13"
 
-	if ${makegraphs}==1 {
+	
 	twoway ///
 	(line repaymyear pcgroup if `varname'==`l4', lcolor(`color4') lpattern(solid) ) ///
 	(line repaymyear pcgroup if `varname'==`l5', lcolor(`color5') lpattern(solid) ) ///
@@ -361,37 +392,42 @@ else {
 			ylabel(0(10000)$maxd)
 	graph save  "${GraphDir}/`casename'_NPV.gph", replace
 	graph export  "${GraphDir}/`casename'_NPV.pdf", replace
+	
+	sum subsidy if `varname'==`l1'
+	global meansub1=r(mean)
+	g meansub1=$meansub
+	sum subsidy if `varname'==`l2'
+	global meansub2=r(mean)
+	g meansub2=$meansub2
+	sum subsidy if `varname'==`l3'
+	global meansub3=r(mean)
+	g meansub3=$meansub3
+	sum subsidy if `varname'==`l4'
+	global meansub4=r(mean)
+	g meansub4=$meansub4
+	
+	
+	twoway (connected currentsub pcgroup, mcolor(gs10) msymbol(X) connect(none)) ///
+	(line subsidy pcgroup if `varname'==`l4', lcolor(`color4') lpattern(solid)) ///
+	(line subsidy pcgroup if `varname'==`l5', lcolor(`color5') lpattern(solid)) ///
+	(line subsidy pcgroup if `varname'==`l1', lcolor(`color1') lpattern(solid) lwidth(.5)) ///
+	(line meansub1 pcgroup if `varname'==`l1', lcolor(`color1') lpattern(-)) ///
+	(line subsidy pcgroup if `varname'==`l2', lcolor(`color2') lpattern(solid) lwidth(.5)) ///
+	(line meansub2 pcgroup if `varname'==`l2', lcolor(`color2') lpattern(-)) ///
+	(line subsidy pcgroup if `varname'==`l3', lcolor(`color3') lpattern(solid) lwidth(.5)) ///
+	(line meansub3 pcgroup if `varname'==`l3', lcolor(`color3') lpattern(-)), ///
+			legend(pos(2) ring(0) col(2) size(normal) ///
+			lab(4 "`varlabname'=`l1'`unit' (Base)") ///
+			lab(6 "`varlabname'=`l2'`unit'") ///
+			lab(8 "`varlabname'=`l3'`unit'") ///
+			lab(1 "GTF Subsidy") ///
+			order(1 6 8 4)) ///
+			ytitle("Subsidy as a share of loan") ylabel(0 `" "0"  "full" "tuition" "' .2(.2).8 1 `" "1"  "free" "tuition" "') ///
+			xlabel(0 `" "0"  "poorest" "' 10(10)90 100 `" "100"  "richest" "') 
+	graph save  "${GraphDir}/`casename'_subsidy.gph", replace
+	graph export  "${GraphDir}/`casename'_subsidy.pdf", replace
 	}
 	
-	forval j=1/4 {
-		sum subsidy if `varname'==`l`j''
-		global meansub`j'=r(mean)
-		sum subsidy if pcgroup<=10 & `varname'==`l`j''
-		global p10sub`j'=r(mean)
-		sum subsidy if pcgroup>=90 & `varname'==`l`j''
-		global p90sub`j'=r(mean)
-		
-		sum repaid if `varname'==`l`j''
-		global meanrep`j'=r(mean)	
-		sum repaid if pcgroup<=10 & `varname'==`l`j''
-		global p10rep`j'=r(mean)
-		sum repaid if pcgroup>=90 & `varname'==`l`j''
-		global p90rep`j'=r(mean)
-		
-		sum NPVICL if pcgroup<=10 & `varname'==`l`j''
-		global npviclp10`j' = r(mean)
-		sum NPVICL if pcgroup>=90 & `varname'==`l`j''
-		global npviclp90`j' = r(mean)
-		global withinICL`j'=${npviclp10`j'}/${npviclp90`j'}
-	
-		sum NPVGTF if pcgroup<=10 & `varname'==`l`j''
-		global npvgtfp10`j' = r(mean)
-		sum NPVGTF if pcgroup>=90 & `varname'==`l`j''
-		global npvgtfp90`j' = r(mean)
-		global withinGTF`j'=${npvgtfp10`j'}/${npvgtfp90`j'}
-		
-
-	}
 	if ${maketable}==1 {
 	local ic=`ic'+2
 	putexcel A`ic'="Changing `varlabname' (first row is baseline)"
@@ -410,41 +446,17 @@ else {
 		
 	}
 
-	if ${makegraphs}==1 {
-	g currentsub=.8
-	twoway (connected currentsub pcgroup, mcolor(gs10) msymbol(X) connect(none)) ///
-	(line subsidy pcgroup if `varname'==`l4', lcolor(`color4') lpattern(solid)) ///
-	(line subsidy pcgroup if `varname'==`l5', lcolor(`color5') lpattern(solid)) ///
-	(line subsidy pcgroup if `varname'==`l1', lcolor(`color1') lpattern(solid) lwidth(.5)) ///
-	(line meansub1 pcgroup if `varname'==`l1', lcolor(`color1') lpattern(-)) ///
-	(line subsidy pcgroup if `varname'==`l2', lcolor(`color2') lpattern(solid) lwidth(.5)) ///
-	(line meansub2 pcgroup if `varname'==`l2', lcolor(`color2') lpattern(-)) ///
-	(line subsidy pcgroup if `varname'==`l3', lcolor(`color3') lpattern(solid) lwidth(.5)) ///
-	(line meansub3 pcgroup if `varname'==`l3', lcolor(`color3') lpattern(-)), ///
-			legend(pos(2) ring(0) col(2) size(normal) ///
-			lab(4 "`varlabname'=`l1'`unit' (Base)") ///
-			lab(6 "`varlabname'=`l2'`unit'") ///
-			lab(8 "`varlabname'=`l3'`unit'") ///
-			lab(1 "Current Subsidy") ///
-			order(1 6 8 4)) ///
-			ytitle("Subsidy as a share of loan") ylabel(0 `" "0"  "full" "tuition" "' .2(.2).8 1 `" "1"  "free" "tuition" "') ///
-			xlabel(0 `" "0"  "poorest" "' 10(10)90 100 `" "100"  "richest" "') 
-	graph save  "${GraphDir}/`casename'_subsidy.gph", replace
-	graph export  "${GraphDir}/`casename'_subsidy.pdf", replace
-	}
 	restore
 }
 
 }
+
 
 if $makequality==1{
 
 global Q=1
 if ${maketable}==1 putexcel set $GraphDir/Table4.xlsx, modify sheet(Q=${Q},replace)
 if ${maketable}==1 putexcel A1="CASE" B1="PARAMETER" D1="AVG. SUBSIDY" E1="TO LOWER 10%" F1="TO TOP 10%"
-
-global GraphDir "$GraphDir/../graficos_q"
-
 
 * choose case
 // 0- baseline
@@ -473,16 +485,6 @@ if `i'==0 {
 	keep if Repay==10
 	keep if iRate_Debt==0
 	
-	if ${makegraphs}==1 {
-	twoway (line repaymyear pcgroup)
-	graph save  "${GraphDir}/`casename'_REPAY.gph", replace
-	graph export "${GraphDir}/`casename'_REPAY.pdf", replace
-	
-	
-	twoway (line NPV pcgroup)
-	graph save  "${GraphDir}/`casename'_NPV.gph", replace
-	graph export  "${GraphDir}/`casename'_NPV.pdf", replace
-	}
 	
 	sum subsidy 
 	global meansub=r(mean)
@@ -499,18 +501,7 @@ if `i'==0 {
 		local ic=`ic'+1	
 		putexcel A`ic'=`i' D`ic'=100*$meansub E`ic'=100*$p10sub F`ic'=100*$p90sub
 	}
-	if ${makegraphs}==1 {
-	g currentsub=.8
-	twoway (line subsidy pcgroup) (line meansub pcgroup) (line currentsub pcgroup), ///
-			legend(pos(7) ring(0) col(1) size(normal) ///
-			lab(1 "Subsidy by lifetime income") ///
-			lab(2 "Average subsidy") ///
-			lab(3 "Current subsidy")) ///
-			ytitle("Subsidy as a share of loan") ylabel(0 `" "0"  "full" "tuition" "' .2(.2).8 1 `" "1"  "free" "tuition" "') ///
-			xlabel(0 `" "0"  "poorest" "' 10(10)90 100 `" "100"  "richest" "') 
-	graph save  "${GraphDir}/`casename'_subsidy.gph", replace
-	graph export  "${GraphDir}/`casename'_subsidy.pdf", replace
-	}
+	
 	restore
 }
 else if `i'==2 {
@@ -534,43 +525,6 @@ else if `i'==2 {
 	local l4=8
 	local l5=15
 	
-	if ${makegraphs}==1 {
-	local color1="black"
-	local color2="plb1"
-	local color3="cranberry"
-	local color4="gs13"
-	local color5="gs13"
-
-	twoway ///
-	(line repaymyear pcgroup if `varname'==`l4', lcolor(`color4') lpattern(solid) ) ///
-	(line repaymyear pcgroup if `varname'==`l5', lcolor(`color5') lpattern(solid) ) ///
-	(line repaymyear pcgroup if `varname'==`l1', lcolor(`color1') lpattern(solid) lwidth(.5)) ///
-	(line repaymyear pcgroup if `varname'==`l2', lcolor(`color2') lpattern(solid) lwidth(.5)) ///
-	(line repaymyear pcgroup if `varname'==`l3', lcolor(`color3') lpattern(solid) lwidth(.5)), ///
-	legend(pos(7) ring(0) col(3) size(normal) ///
-			lab(3 "`varlabname'=`l1'`unit' (Base)") ///
-			lab(5 "`varlabname'=0.5`unit'") ///
-			lab(7 "`varlabname'=2.2`unit'") ///
-			order(3 5 7))  xlabel(0 `" "0"  "poorest" "' 10(10)90 100 `" "100"  "richest" "') 
-	graph save  "${GraphDir}/`casename'_REPAY.gph", replace
-	graph export "${GraphDir}/`casename'_REPAY.pdf", replace
-	pause
-	
-	twoway  ///
-	(line NPV pcgroup if `varname'==`l4', lcolor(`color4') lpattern(solid) ) ///
-	(line NPV pcgroup if `varname'==`l5', lcolor(`color5') lpattern(solid) ) ///
-	(line NPV pcgroup if `varname'==`l1', lcolor(`color1') lpattern(solid) lwidth(.5)) ///
-	(line NPV pcgroup if `varname'==`l2', lcolor(`color2') lpattern(solid) lwidth(.5)) ///
-	(line NPV pcgroup if `varname'==`l3', lcolor(`color3') lpattern(solid) lwidth(.5)), ///
-	legend(pos(11) ring(0) col(3) size(normal) ///
-			lab(3 "`varlabname'=`l1'`unit' (Base)") ///
-			lab(4 "`varlabname'=0.5`unit'") ///
-			lab(5 "`varlabname'=2.2`unit'") ///
-			order(3 4 5)) xlabel(0 `" "0"  "poorest" "' 10(10)90 100 `" "100"  "richest" "') ///
-			ylabel(0(10000)$maxd)
-	graph save  "${GraphDir}/`casename'_NPV.gph", replace
-	graph export  "${GraphDir}/`casename'_NPV.pdf", replace
-	}
 	
 	forval j=1/4 {
 		sum subsidy if `varname'==`l`j''
@@ -596,28 +550,7 @@ else if `i'==2 {
 		putexcel A`ic'=`i' B`ic'="`varlabname'" C`ic'=`l4'/10 D`ic'=100*$meansub4 E`ic'=100*$p10sub4 F`ic'=100*$p90sub4
 	}
 	
-	if ${makegraphs}==1 {
-	g currentsub=.8
-	twoway (connected currentsub pcgroup, mcolor(gs10) msymbol(X) connect(none)) ///
-	(line subsidy pcgroup if `varname'==`l4', lcolor(`color4') lpattern(solid)) ///
-	(line subsidy pcgroup if `varname'==`l5', lcolor(`color5') lpattern(solid)) ///
-	(line subsidy pcgroup if `varname'==`l1', lcolor(`color1') lpattern(solid) lwidth(.5)) ///
-	(line meansub1 pcgroup if `varname'==`l1', lcolor(`color1') lpattern(-)) ///
-	(line subsidy pcgroup if `varname'==`l2', lcolor(`color2') lpattern(solid) lwidth(.5)) ///
-	(line meansub2 pcgroup if `varname'==`l2', lcolor(`color2') lpattern(-)) ///
-	(line subsidy pcgroup if `varname'==`l3', lcolor(`color3') lpattern(solid) lwidth(.5)) ///
-	(line meansub3 pcgroup if `varname'==`l3', lcolor(`color3') lpattern(-)), ///
-			legend(pos(2) ring(0) col(2) size(normal) ///
-			lab(4 "`varlabname'=`l1'`unit' (Base)") ///
-			lab(6 "`varlabname'=0.5`unit'") ///
-			lab(8 "`varlabname'=2.2`unit'") ///
-			lab(1 "Current Subsidy") ///
-			order(1 6 8 4)) ///
-			ytitle("Subsidy as a share of loan") ylabel(0 `" "0"  "full" "tuition" "' .2(.2).8 1 `" "1"  "free" "tuition" "') ///
-			xlabel(0 `" "0"  "poorest" "' 10(10)90 100 `" "100"  "richest" "') 
-	graph save  "${GraphDir}/`casename'_subsidy.gph", replace
-	graph export  "${GraphDir}/`casename'_subsidy.pdf", replace
-	}
+	
 	restore
 }
 else {
@@ -708,37 +641,6 @@ else {
 	local color4="gs13"
 	local color5="gs13"
 
-	if ${makegraphs}==1 {
-	twoway ///
-	(line repaymyear pcgroup if `varname'==`l4', lcolor(`color4') lpattern(solid) ) ///
-	(line repaymyear pcgroup if `varname'==`l5', lcolor(`color5') lpattern(solid) ) ///
-	(line repaymyear pcgroup if `varname'==`l1', lcolor(`color1') lpattern(solid) lwidth(.5)) ///
-	(line repaymyear pcgroup if `varname'==`l2', lcolor(`color2') lpattern(solid) lwidth(.5)) ///
-	(line repaymyear pcgroup if `varname'==`l3', lcolor(`color3') lpattern(solid) lwidth(.5)), ///
-	legend(pos(7) ring(0) col(3) size(normal) ///
-			lab(3 "`varlabname'=`l1'`unit' (Base)") ///
-			lab(5 "`varlabname'=`l2'`unit'") ///
-			lab(7 "`varlabname'=`l3'`unit'") ///
-			order(3 5 7))  xlabel(0 `" "0"  "poorest" "' 10(10)90 100 `" "100"  "richest" "') 
-	graph save  "${GraphDir}/`casename'_REPAY.gph", replace
-	graph export "${GraphDir}/`casename'_REPAY.pdf", replace
-	pause
-	
-	twoway  ///
-	(line NPV pcgroup if `varname'==`l4', lcolor(`color4') lpattern(solid) ) ///
-	(line NPV pcgroup if `varname'==`l5', lcolor(`color5') lpattern(solid) ) ///
-	(line NPV pcgroup if `varname'==`l1', lcolor(`color1') lpattern(solid) lwidth(.5)) ///
-	(line NPV pcgroup if `varname'==`l2', lcolor(`color2') lpattern(solid) lwidth(.5)) ///
-	(line NPV pcgroup if `varname'==`l3', lcolor(`color3') lpattern(solid) lwidth(.5)), ///
-	legend(pos(11) ring(0) col(3) size(normal) ///
-			lab(3 "`varlabname'=`l1'`unit' (Base)") ///
-			lab(4 "`varlabname'=`l2'`unit'") ///
-			lab(5 "`varlabname'=`l3'`unit'") ///
-			order(3 4 5)) xlabel(0 `" "0"  "poorest" "' 10(10)90 100 `" "100"  "richest" "') ///
-			ylabel(0(10000)$maxd)
-	graph save  "${GraphDir}/`casename'_NPV.gph", replace
-	graph export  "${GraphDir}/`casename'_NPV.pdf", replace
-	}
 	
 	forval j=1/4 {
 		sum subsidy if `varname'==`l`j''
@@ -768,28 +670,7 @@ else {
 		if `i'==5 putexcel A`ic'=`i' B`ic'="`varlabname'" C`ic'=`l4' D`ic'=100*$meansub4 E`ic'=100*$p10sub4 F`ic'=100*$p90sub4
 	}
 
-	if ${makegraphs}==1 {
-	g currentsub=.8
-	twoway (connected currentsub pcgroup, mcolor(gs10) msymbol(X) connect(none)) ///
-	(line subsidy pcgroup if `varname'==`l4', lcolor(`color4') lpattern(solid)) ///
-	(line subsidy pcgroup if `varname'==`l5', lcolor(`color5') lpattern(solid)) ///
-	(line subsidy pcgroup if `varname'==`l1', lcolor(`color1') lpattern(solid) lwidth(.5)) ///
-	(line meansub1 pcgroup if `varname'==`l1', lcolor(`color1') lpattern(-)) ///
-	(line subsidy pcgroup if `varname'==`l2', lcolor(`color2') lpattern(solid) lwidth(.5)) ///
-	(line meansub2 pcgroup if `varname'==`l2', lcolor(`color2') lpattern(-)) ///
-	(line subsidy pcgroup if `varname'==`l3', lcolor(`color3') lpattern(solid) lwidth(.5)) ///
-	(line meansub3 pcgroup if `varname'==`l3', lcolor(`color3') lpattern(-)), ///
-			legend(pos(2) ring(0) col(2) size(normal) ///
-			lab(4 "`varlabname'=`l1'`unit' (Base)") ///
-			lab(6 "`varlabname'=`l2'`unit'") ///
-			lab(8 "`varlabname'=`l3'`unit'") ///
-			lab(1 "Current Subsidy") ///
-			order(1 6 8 4)) ///
-			ytitle("Subsidy as a share of loan") ylabel(0 `" "0"  "full" "tuition" "' .2(.2).8 1 `" "1"  "free" "tuition" "') ///
-			xlabel(0 `" "0"  "poorest" "' 10(10)90 100 `" "100"  "richest" "') 
-	graph save  "${GraphDir}/`casename'_subsidy.gph", replace
-	graph export  "${GraphDir}/`casename'_subsidy.pdf", replace
-	}
+	
 	restore
 }
 
