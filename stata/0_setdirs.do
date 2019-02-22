@@ -10,7 +10,7 @@ set matsize 11000, permanently
 global BaseDir 	 	"~/Documents/GitHub/CGMV_prestamos"
 global CodesDir   	"$BaseDir/stata"
 global StataOut   	"$BaseDir/stata/output"		// Output from Stata 
-global GraphDir   	"$BaseDir/stata/graphs"	// graphs
+global GraphDir   	"$BaseDir/paper_figures"	// graphs
 
 * just in case it's first run
 cap mkdir $GraphDir
