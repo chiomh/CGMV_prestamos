@@ -12,7 +12,7 @@ GraphDir    = '~/Dropbox/research/cgm_dynamics/CGM_local/matlab/graphs';
 
 Save = 0;% Save graphs;
 
-mygray=[.7 .7 .7];
+mygray=[1.7 .7 .7];
         myblue=[51/255 102/255 153/255];
         lightblue=[102/255 102/255 1];
         lightred=[249/255 80/255 80/255];
@@ -33,7 +33,7 @@ for i_s=1:1,
         cd(OutputDir);
         
         %% LOAD RAW DATA
-        if DoRawData==1
+%         if DoRawData==1
             
             % raw age profiles (data) -- from EmpStatus.do
             for e = 1:4
@@ -55,7 +55,7 @@ for i_s=1:1,
                     constantdistn{e,s}(:,2) = constantdistn{e,s}(:,2)./sum(constantdistn{e,s}(:,2));
                 end
             end
-        end
+%         end
         
         % LOAD QUANTILES
         if DoQuantiles==1
