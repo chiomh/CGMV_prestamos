@@ -21,5 +21,5 @@ To compare empirical and simulated earnings ditribution, run simulations/figure2
 To replicate main results in the paper, run all codes in folder stata. In particular 3_output_results creates the graphs after the loan laboratory has been calculated in loan_lab. Case_s3_e4.dta is provided in stata/output and it is the output of 2_loan_lab. 2_loan_lab is pretty slow. 
 
 ### Table 3: Quality
-Turn global parameter "qualityadj = 1" in 2_loan_lab to create Case_s3_e4_q.dta and rerun codes in stata. The output is Case_s3_e4_q.dta, which is also provided in stata/output. Then flagging makequality=1 in 3_output_results generates Table3.
+Turn global parameter "qualityadj = 1" in 1_read_fortran_simul and run 2_loan_lab after to create Case_s3_e4_q.dta. The output is Case_s3_e4_q.dta, which is also provided in stata/output. Then flagging makequality=1 in 3_output_results generates Table3.
 
