@@ -18,7 +18,3 @@ cap mkdir $StataOut
 
 * -------------------------------------
 
-cd $BaseDir
-
-*run $CodesDir/1_read_fortran_simul
-*run $CodesDir/2_loans_lab

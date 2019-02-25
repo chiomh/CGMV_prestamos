@@ -6,9 +6,11 @@
 *
 * The resulting panel is stored in simpanel_e`e'.dta.
 *
+* Change qualityadj = 1 for results in section 4. Notice that simpanel_e`e' 
+* is overwritten in that case
 *
 * Rocio Madera
-* Last: 12/20/2017
+* Last: 2/25/2019
 *---------------------------------------------------------------------------
 
 clear all
