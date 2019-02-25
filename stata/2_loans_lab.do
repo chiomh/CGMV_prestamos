@@ -307,8 +307,8 @@ forvalues s = 3/3 {	// Sex - 1 (Males) 2 (Females) 3 (All)
 		label var ExemptLev "Amount exempt from payment (in 1000s)"
 		label var RepaymRate "Amount exempt from payment (in percent)"
 		
-		if `h'>1 append using Case_s`s'_e`e'
-		saveold Case_s`s'_e`e', replace
+		if `h'>1 append using $StataOut/Case_s`s'_e`e'
+		saveold $StataOut/Case_s`s'_e`e', replace
 		
 		
 		} // p

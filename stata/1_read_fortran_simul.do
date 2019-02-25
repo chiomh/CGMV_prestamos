@@ -24,7 +24,7 @@ cd "$StataOut"
 
 local e=4 // education, 4 is college grads
 forvalues s = 1/2 { //sex
-	global ModelDir = "${BaseDir}/fortran/simulations/sex_`s'/edgroup_`e'"
+	global ModelDir = "${BaseDir}/simulations/sex_`s'/edgroup_`e'"
 	
 	************************
 	di("import constant from first-stage income regression")
