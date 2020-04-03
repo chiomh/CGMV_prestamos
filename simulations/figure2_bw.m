@@ -1,0 +1,108 @@
+clear all;
+close all;
+clc;
+
+root=(pwd);
+InputDirRaw = '~/Documents/GitHub/CGMV_prestamos/stata/output';
+OutputDir   = '~/Documents/GitHub/CGMV_prestamos/paper_figures/bw';
+ModelDir    = '~/Documents/GitHub/CGMV_prestamos/simulations';
+
+% Options for this run;
+
+Save = 1;% Save graphs;
+
+mygray=[.7 .7 .7];
+myblue=[51/255 102/255 153/255];
+lightblue=[102/255 102/255 1];
+lightred=[249/255 80/255 80/255];
+% grayscale colormap
+cmap = gray(9);
+
+agevec=[19 19 19 22];
+agemax = 60;
+
+for i_s=1:1
+    for i_e=4:4
+        close all;
+        
+        % CHOOSE MODEL;
+        sex = i_s;
+        ed = i_e;
+        e = ed;
+        s = sex;
+        
+        agemin = agevec(ed);
+        ModelDir = [ModelDir '/sex_' int2str(sex) '/edgroup_' int2str(ed)];
+        cd(OutputDir);
+        
+        %% LOAD RAW DATA
+        
+        % raw age profiles (data) -- from EmpStatus.do
+        ageprofiles{e,s} = importdata([InputDirRaw '/ageprofiles_s' int2str(s) '_e' int2str(e) '.txt']);
+        for i = 1:size(ageprofiles{e,s}.data,2)
+            ageprofiles{e,s}.(ageprofiles{e,s}.textdata{i}) = ageprofiles{e,s}.data(:,i);
+        end
+        
+        
+        age = ageprofiles{ed,sex}.age;
+        nage = length(age);
+        
+        % Distribution of observables in first stage -- from FirstStage.do
+        
+        constantdistn{e,s} = importdata([InputDirRaw '/constantdistn_s' int2str(s) '_e' int2str(e) '.txt']);
+        constantdistn{e,s}(:,2) = constantdistn{e,s}(:,2)./sum(constantdistn{e,s}(:,2));
+        
+        % LOAD QUANTILES
+        
+        
+        quantileslog{e,s} = importdata([InputDirRaw '/quantileslog_s' int2str(s) '_e' int2str(e) '.txt']);
+        for i = 1:size(quantileslog{e,s}.data,2)
+            quantileslog{e,s}.(quantileslog{e,s}.textdata{i}) = quantileslog{e,s}.data(:,i);
+        end
+        
+        
+        PClrearns = [quantileslog{ed,sex}.lp5 quantileslog{ed,sex}.lp10 quantileslog{ed,sex}.lp25 quantileslog{ed,sex}.lp50 quantileslog{ed,sex}.lp75 quantileslog{ed,sex}.lp90 quantileslog{ed,sex}.lp95 ];
+        
+        cd([ModelDir '/../..']);
+        ysim = load([ModelDir '/ysim.txt']);
+        expysim = load([ModelDir '/expysim.txt']);
+        uesim = load([ModelDir '/uesim.txt']);
+        statusM=uesim;
+        nsim = size(ysim,1);
+        groupsim = randp(constantdistn{ed,sex}(:,2),nsim,1);
+        constantsim = constantdistn{ed,sex}(groupsim,1) ;
+        lrearnsM = ysim + constantsim*ones(1,nage);
+        lrearnsM(statusM==1) = NaN;
+        
+        
+        
+        %% QUANTILES
+        
+        screens=get(0,'monitorpositions');
+        nomonitors = size(screens,1);
+        posgraphs = screens(end,: );
+        pvec=[5 10 25 50 75 90 95];
+        PClrearnsM = prctile(lrearnsM,pvec)';
+              
+        figure('color','white','position',posgraphs/1.1); hold on;
+        for i=1:size(PClrearns,2)
+            gd(i)=plot(age,PClrearns(:,i),'color',cmap(i,:),'LineWidth',4.5);
+            text(max(age)+.1,max(PClrearns(:,i)),['\bf P',num2str(pvec(i))],'Color',cmap(i,:),'FontSize',25,'interpreter','latex');
+            gm(i)=plot(age,PClrearnsM(:,i),'--','color',cmap(i,:),'LineWidth',3);
+            text(max(age)+.1,max(PClrearnsM(:,i))-.04,['\it P',num2str(pvec(i))],'Color',cmap(i,:),'FontSize',20,'interpreter','latex');
+        end        
+        grid;
+        axis([ageprofiles{ed,sex}.age(1)-1 ageprofiles{ed,sex}.age(end)+1 ...
+            min(PClrearnsM(:,1))-.5 max(PClrearnsM(:,7))+.5]);
+        set(gca,'ticklabelinterpreter','latex','fontsize',20);
+        lg=legend([gd(1),gm(1)],'\bf Data','\it Model','Location','SouthEast','box','on');
+        set(lg,'interpreter','latex','Fontsize',50);
+        ylabel('Log Earnings','interpreter','latex','Fontsize',20);
+        xlabel('Age','interpreter','latex','Fontsize',20);
+        if Save==1
+            print('-depsc2',[OutputDir '/lquantiles_s' int2str(sex) '_e' int2str(ed) '.eps']);
+        end
+        
+        
+    end
+end
